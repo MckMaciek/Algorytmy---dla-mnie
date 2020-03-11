@@ -8,31 +8,31 @@ private:
 
     struct Node{
 
-    Node * lptr; 
-    Node * rptr; 
-    Node * parent;
+    std::shared_ptr<Node>lptr;
+    std::shared_ptr<Node>rptr;
+    std::shared_ptr<Node>parent;
     T value;
     
     };
 
-Node * root = nullptr;
+std::shared_ptr<Node>root;
    
 public:
 
 
-void addPrivately(T tempV, Node * node);
-void inOrderPrivately(Node * node);
-void postOrderPrivately(Node * node);
-void preOrderPrivately(Node * node);
-void lookForValuePrivately(Node * node, T Svalue);
-int heightPrivately(Node * node);
-int minimumPrivate(Node * node);
-int maximumPrivate(Node * node);
+void addPrivately(T tempV, std::shared_ptr<Node>node);
+void inOrderPrivately(std::shared_ptr<Node>node);
+void postOrderPrivately(std::shared_ptr<Node>node);
+void preOrderPrivately(std::shared_ptr<Node>node);
+void lookForValuePrivately(std::shared_ptr<Node>node, T Svalue);
+int heightPrivately(std::shared_ptr<Node>node);
+int minimumPrivate(std::shared_ptr<Node>node);
+int maximumPrivate(std::shared_ptr<Node>node);
 
 
-Node * newNode(T Tvaluer){
+std::shared_ptr<Node> newNode(T Tvaluer){
 
-Node * n = new Node;
+std::shared_ptr<Node>n = std::make_shared<Node>();
 n->lptr = nullptr;
 n->rptr = nullptr;
 n->value = Tvaluer;
@@ -52,7 +52,7 @@ inline int maximum() { int max = maximumPrivate(root); return max;}
 };
 
 template<typename T>
-int Tree<T>::maximumPrivate(Node * node){
+int Tree<T>::maximumPrivate(std::shared_ptr<Node>node){
 
  if(node->rptr == nullptr){
 
@@ -64,7 +64,7 @@ int Tree<T>::maximumPrivate(Node * node){
 }
 
 template<typename T>
-int Tree<T>::minimumPrivate(Node * node){
+int Tree<T>::minimumPrivate(std::shared_ptr<Node>node){
 
     if(node->lptr == nullptr){
 
@@ -77,7 +77,7 @@ int Tree<T>::minimumPrivate(Node * node){
 
 
 template<typename T>
-int Tree<T>::heightPrivately(Node * node){
+int Tree<T>::heightPrivately(std::shared_ptr<Node>node){
 
 if (root != nullptr){
 
@@ -96,7 +96,7 @@ return -1;
 }
 
 template<typename T>
-void Tree<T>::lookForValuePrivately(Node * node,T Svalue){
+void Tree<T>::lookForValuePrivately(std::shared_ptr<Node>node,T Svalue){
 
 
 if(node->value != Svalue){
@@ -116,7 +116,7 @@ else{
 }
 
 template<typename T>
-void Tree<T>::preOrderPrivately(Node * node){
+void Tree<T>::preOrderPrivately(std::shared_ptr<Node>node){
 
  if(node != nullptr){
 
@@ -129,7 +129,7 @@ void Tree<T>::preOrderPrivately(Node * node){
 
 
 template<typename T>
-void Tree<T>::postOrderPrivately(Node * node){
+void Tree<T>::postOrderPrivately(std::shared_ptr<Node>node){
 
  if(node != nullptr){
 
@@ -141,7 +141,7 @@ void Tree<T>::postOrderPrivately(Node * node){
 }
 
 template<typename T>
-void Tree<T>::inOrderPrivately(Node *  node){
+void Tree<T>::inOrderPrivately(std::shared_ptr<Node>node){
 
     if(node != nullptr){
 
@@ -154,7 +154,7 @@ void Tree<T>::inOrderPrivately(Node *  node){
 }
 
 template<typename T>
-void Tree<T>::addPrivately(T tempV, Node * node){
+void Tree<T>::addPrivately(T tempV, std::shared_ptr<Node>node){
 
     if(root == nullptr)  root = newNode(tempV);
     
