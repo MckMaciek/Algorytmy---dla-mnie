@@ -31,7 +31,7 @@ int maximumPrivate(std::shared_ptr<Node>node);
 void predecessorPrivately(std::shared_ptr<Node>node,std::shared_ptr<Node>prec,T value);
 void removeValuePrivately(std::shared_ptr<Node>node, T value);
 void printBinaryTreePrivately(std::shared_ptr<Node>node, int counter);
-
+void removeRootPrivately(std::shared_ptr<Node>node);
 
 std::shared_ptr<Node> minimumPrivatelyRetPoint(std::shared_ptr<Node>node){
 
@@ -82,6 +82,57 @@ inline void removeValue(T value) { removeValuePrivately(root,value);}
 inline void printBinaryTree() { printBinaryTreePrivately(root,10); }
 };
 
+//-------------------------------------------REMOVINGROOT-------------------------------------------------------
+
+template<typename T>
+void Tree<T>::removeRootPrivately(std::shared_ptr<Node> node){
+
+if(node != nullptr){
+     
+        std::shared_ptr del = std::make_shared<Node>(node);
+        T rootKey = node->value;
+        T smallestInR;
+
+                // node(root) has no childrens
+
+                if((node->lptr == nullptr) && (node->rptr == nullptr)){
+                    node = nullptr;
+                    del = nullptr;
+                }
+
+                // node(root) has 1 child (right children)
+
+                else if((node->lptr == nullptr) && (node->rptr != nullptr)){
+                    
+                    node = node->rptr;
+                    del = nullptr; 
+                    std::cout << rootKey << " has been removed";
+                }
+
+                // node(root) has 1 child (left children) 
+                 
+                else if((node->lptr != nullptr) && (node->rptr == nullptr)){
+                    
+                    node = node->lptr;
+                    del = nullptr; 
+                    std::cout << rootKey << " has been removed";
+                }
+
+                // node(root) has 2 children
+                
+                else{
+
+                    smallestInR = minimumPrivate(node->rptr);
+                    removeValuePrivately(node,smallestInR);
+                    node->value = smallestInR;
+                }
+
+}
+
+
+}
+
+//-------------------------------------------PRINTING-------------------------------------------------------
 template<typename T>
 void Tree<T>::printBinaryTreePrivately(std::shared_ptr<Node>node, int counter){
 
@@ -101,37 +152,22 @@ printBinaryTreePrivately(node->lptr,counter);
 }
 }
 
+
+//-------------------------------------------REMOVING-------------------------------------------------------
 template<typename T>
-void Tree<T>::removeValuePrivately(std::shared_ptr<Node>node, T value){
+void Tree<T>::removeValuePrivately(std::shared_ptr<Node> node, T value){
 
-if(node != nullptr){
-
-/*
     if(node->value == value){
-        
-        std::shared_ptr del = std::make_shared<Node>(node);
-        T rootKey = node->value;
-        int smallest 
 
-                if((node->lptr == nullptr) && (node->rptr == nullptr)){
-                    node = nullptr;
-                    del = nullptr;
-                }
-
-                else if((node->lptr == nullptr) && (node->rptr != nullptr)){
-                    
-                    node = node->rptr;
-                    del = nullptr; 
-                }
-
-            }
+    removeRootPrivately(node);
 
     }
+    
+}
+    /*
+    else if{
 
-    else{
-
-        if(node->value > value){
-            if(node->lptr != nullptr){
+        if((node->value > value) && (node->lptr != nullptr)){
 
                 if (node->lptr->value == value){
 
@@ -139,12 +175,10 @@ if(node != nullptr){
                 else{
                 removeValuePrivately(node->lptr,value);
                 }
-
-            }
+      
         }
 
-        else if(node->value < value){
-            if(node->rptr != nullptr){
+        else if((node->value < value) && (node->rptr != nullptr)){
 
                 if (node->rptr->value == value){
                     
@@ -153,7 +187,7 @@ if(node != nullptr){
                 removeValuePrivately(node->rptr,value);
                 }
 
-            }
+            
         }
         else{
             std::cout << "Value "<< value  <<" not found";
@@ -162,9 +196,7 @@ if(node != nullptr){
     }
 */
 
-}
-std::cout << "Tree is empty\n";
-}
+//-------------------------------------------LOOKINGFORPREDECESSOR-------------------------------------------------------
 
 template<typename T>
 void Tree<T>::predecessorPrivately(std::shared_ptr<Node>node,std::shared_ptr<Node>prec,T Ivalue){
@@ -197,6 +229,8 @@ void Tree<T>::predecessorPrivately(std::shared_ptr<Node>node,std::shared_ptr<Nod
 
 }
 
+//-------------------------------------------MINIMALVALUE-------------------------------------------------------
+
 
 template<typename T>
 int Tree<T>::maximumPrivate(std::shared_ptr<Node>node){
@@ -210,6 +244,7 @@ int Tree<T>::maximumPrivate(std::shared_ptr<Node>node){
  
 }
 
+//-------------------------------------------MAXIMUMVALUE-------------------------------------------------------
 
 template<typename T>
 int Tree<T>::minimumPrivate(std::shared_ptr<Node>node){
@@ -222,6 +257,8 @@ int Tree<T>::minimumPrivate(std::shared_ptr<Node>node){
         return minimumPrivate(node->lptr);
  
 }
+
+//-------------------------------------------TREEHEIGHT-------------------------------------------------------
 
 
 template<typename T>
@@ -243,6 +280,8 @@ if (root != nullptr){
 return -1;
 }
 
+//-------------------------------------------SEARCHFORVALUE-------------------------------------------------------
+
 template<typename T>
 void Tree<T>::lookForValuePrivately(std::shared_ptr<Node>node,T Svalue){
 
@@ -263,6 +302,8 @@ else{
 
 }
 
+//-------------------------------------------PREORDERTRAVEL-------------------------------------------------------
+
 template<typename T>
 void Tree<T>::preOrderPrivately(std::shared_ptr<Node>node){
 
@@ -275,6 +316,7 @@ void Tree<T>::preOrderPrivately(std::shared_ptr<Node>node){
 
 }
 
+//-------------------------------------------POSTORDERTRAVEL-------------------------------------------------------
 
 template<typename T>
 void Tree<T>::postOrderPrivately(std::shared_ptr<Node>node){
@@ -288,6 +330,8 @@ void Tree<T>::postOrderPrivately(std::shared_ptr<Node>node){
 
 }
 
+//-------------------------------------------INORDERTRAVEL-------------------------------------------------------
+
 template<typename T>
 void Tree<T>::inOrderPrivately(std::shared_ptr<Node>node){
 
@@ -300,6 +344,8 @@ void Tree<T>::inOrderPrivately(std::shared_ptr<Node>node){
 
 
 }
+
+//-------------------------------------------ADDTOTHETREE-------------------------------------------------------
 
 template<typename T>
 void Tree<T>::addPrivately(T tempV, std::shared_ptr<Node>node){
@@ -320,7 +366,7 @@ void Tree<T>::addPrivately(T tempV, std::shared_ptr<Node>node){
 
 } 
 
-
+//-------------------------------------------MAIN-------------------------------------------------------
 
 int main(){
 
@@ -340,9 +386,9 @@ int main(){
     //std::cout << "\n";
     //Drzewo.postOrder();
     //std::cout << "\n";
-
     Drzewo.printBinaryTree();
-
+    Drzewo.removeValue(3);
+    Drzewo.printBinaryTree();
 
     //std::cout << Drzewo.minimum() << "\n";
     //std::cout << Drzewo.maximum() << "\n";
