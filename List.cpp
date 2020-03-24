@@ -19,11 +19,12 @@ Element * first;
 Element * last;
 
 void print()const;
-
-void add(unsigned long pos, T Idata);
+void remove(unsigned long pos);
+void addP(unsigned long pos, T Idata);
 
 
 //-------------------------------------GETPOSITION
+
 
 Element * getPosition(unsigned int pos)const{
 
@@ -58,6 +59,48 @@ return i;
 
 };
 
+//------------------------------------------REMOVE
+
+template<typename T>
+void List<T>::remove(unsigned long pos){
+
+if(sizeL() == 0 || pos == 0){ std::cout << "Nothing to remove\n";return;}
+
+
+else if(sizeL() == 1){
+
+    this->first = nullptr;
+    this->last = nullptr;
+    delete first;
+}
+
+else if( pos == 1){
+
+    Element * temp = first;
+    this->first = this->first->after;
+    delete temp;
+
+}
+
+
+else if( pos == sizeL()){
+
+    Element * bef = getPosition(sizeL()-1);
+    delete bef->after; 
+    bef->after = nullptr;
+    this->last =  bef;
+}
+
+else{
+
+    Element * bef = getPosition(pos-1);
+    Element * temp = getPosition(pos);
+
+    bef->after = temp->after;
+    delete temp;
+}
+
+}
 //-----------------------------------------PRINT
 
 template<typename T>
@@ -65,9 +108,10 @@ void List<T>::print()const{
 
 Element * temp = first;
 
+std::cout << "HEAD = ";
 while(temp != nullptr){
 
-std::cout << temp->data << "->";
+std::cout << temp->data << "<-";
 
 temp = temp->after;    
 }
@@ -80,18 +124,21 @@ std::cout << "nullptr\n";
 //------------------------------------------ADD
 
 template<typename T>
-void List<T>::add(unsigned long pos, T Idata){
+void List<T>::addP(unsigned long pos, T Idata){
 
 
 Element * n = new Element(Idata);
 
-if (sizeL() == 0){
+if(pos == 0) {std::cout << "Invalid range\n"; exit(-1);}
+
+else if (sizeL() == 0){
 
     this->first = n;
     this->last =  n;
 }
 
-else if((pos == 0) || (pos == 1)){
+
+else if(pos == 1){
 
     n->after = this->first;
     this->first  = n;
@@ -117,8 +164,10 @@ int main(){
 
 List<int>lista;
 
-lista.add(0,4);
-lista.add(1,5);
+lista.addP(1,99);
+
+
+lista.remove(0);
 lista.print();
 
 return 0;
